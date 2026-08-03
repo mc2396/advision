@@ -1,5 +1,31 @@
-node_modules
-dist
+# Dipendenze
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Variabili d'ambiente (contengono credenziali, MAI committare)
 .env
+.env.local
+.env.*.local
+
+# Cache di Vite
+.vite/
+
+# Log
+*.log
+npm-debug.log*
+
+# OS
 .DS_Store
-coverage
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# Test coverage
+coverage/

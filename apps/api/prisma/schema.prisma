@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CampaignStatus {
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+model Campaign {
+  id         Int            @id @default(autoincrement())
+  name       String
+  status     CampaignStatus @default(ACTIVE)
+  budget     Float
+  spend      Float          @default(0)
+  ctr        Float          @default(0)
+  externalId String?        @unique // ID della campagna su Meta (act_.../campaigns), null se creata solo in AdVision
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@map("campaigns")
+}
