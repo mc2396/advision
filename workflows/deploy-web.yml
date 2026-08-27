@@ -1,0 +1,28 @@
+  - name: Setup Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: '20'
+      cache: 'npm'
+
+  - name: Install dependencies
+    working-directory: apps/web
+    run: npm ci
+
+  - name: Build web
+    working-directory: apps/web
+    env:
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+    run: npm run build
+
+  - name: Ensure SPA fallback (copy index -> 404)
+    run: |
+      if [ -d "./apps/web/dist" ]; then
+        cp ./apps/web/dist/index.html ./apps/web/dist/404.html || true
+      fi
+
+  - name: Deploy to gh-pages
+    uses: peaceiris/actions-gh-pages@v4
+    with:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      publish_dir: ./apps/web/dist
+      publish_branch: gh-pages
